@@ -1,4 +1,8 @@
 .App {
+  /*display: flex;*/
+  /*flex-direction: column;*/
+
+  /*align-items: center;*/
   text-align: center;
 }
 
@@ -7,8 +11,12 @@
   pointer-events: none;
 }
 
-.Message {
- color: darkgreen;
+.messages {
+  color: darkgreen;
+}
+
+.border {
+  border: 1px solid black;
 }
 
 @media (prefers-reduced-motion: no-preference) {
