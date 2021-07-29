@@ -1,8 +1,14 @@
 import React from 'react';
 // import logo from './logo.svg';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import './App.css';
 import {useEffect, useState} from "react";
+import {BrowserRouter} from "react-router-dom";
+import { Link, Switch, Route, Redirect } from 'react-router-dom';
+import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router'
 
 const AUTHORS = {
     ME: 'Me',
@@ -36,27 +42,19 @@ function Message(props) {
     );
 }
 
-function ChatList(props) {
+function ChatList1(props) {
     const { chatList } = props;
-    // const [chatList, setChatList] = useState(chatList1);
 
-    // return (
-    //     <div className="chatList">
-    //         {chatList.map( (chat) => (
-    //             <ChatName key={chat.id} text={chat.name} className={"border"}></ChatName>
-    //         ))}
-    //     </div>
     return (
-        // <p className={chatList.id}>{chatList.name}</p>
-    <div className={props.className}>
+    <List className={props.className} subheader={"Chats:"}>
         {chatList.map( (chatItem) => (
-            <p key={chatItem.id}>{chatItem.name}</p>
+            <ListItem key={chatItem.id}>{chatItem.name}</ListItem>
         ))}
-    </div>
+    </List>
     );
 }
 
-function Chat() {
+function Chat1() {
     const [messageList, setMessageList] = useState([]);
     const [inputValue, setInputValue] = useState('');
 
@@ -92,7 +90,12 @@ function Chat() {
       <div>
           <div className="messages">
               {messageList.map( (message) => (
-                  <Message key={message.id} text={message.text} author={message.author} className={"bgcYellow"}></Message>
+                  <Message
+                      key={message.id}
+                      text={message.text}
+                      author={message.author}
+                      className={"bgcYellow"}>
+                  </Message>
               ))}
           </div>
 
@@ -108,19 +111,141 @@ function Chat() {
                   value={inputValue}
                   onChange={handleMessageChange}
               />
-              <button>Отправить</button>
+              <Button type="submit">Отправить</Button>
           </form>
       </div>
   );
 }
 
+const initialChats = {
+    id1: {
+        name: "Chat1",
+        messages: [{ text: "FirstMessage", author: AUTHORS.BOT }],
+    },
+    id2: {
+        name: "Chat2",
+        messages: [{ text: "FirstMessageHereToo!", author: AUTHORS.ME }],
+    },
+};
+
+const Home = () => (
+    <>
+        <div>Home</div>
+    </>
+)
+
+const Profile = () => (
+    <>
+        <div>Profile</div>
+    </>
+);
+
+function MessagesList() {
+    const [messages, setMessages] = useState([
+        "message 1",
+        "message 2",
+        "message 3",
+    ]);
+    return messages.map((message) => <div>{message}</div>);
+}
+
+const ChatList = ({ chats, chatId }) => (
+    <div>
+        {Object.keys(chats).map((id, i) => (
+            <div key={i}>
+                <Link to={`/chats/${id}`}>
+                    <b style={{ color: id === chatId ? "#000000" : "grey" }}>
+                        {chats[id].name}
+                    </b>
+                </Link>
+            </div>
+        ))}
+    </div>
+);
+
+
+function Chats() {
+    const { chatId } = useParams();
+    const [chats, setChats] = useState(initialChats);
+    // if (!chatId || !chats[chatId]) {
+    //     return <Redirect to="/nochat" />;
+    // }
+    return (
+        <>
+            <header>Header</header>
+            <div className="wrapper">
+                <div>
+                    <ChatList
+                        chats={chats}
+                        chatId={chatId}
+                    />
+                </div>
+                <div>
+                    {/*<Message messages={chats[chatId].messages} />*/}
+                    {/*<MessagesList messages={chats[chatId].messages} />*/}
+
+                </div>
+            </div>
+        </>
+    );
+}
+
+const NoChat = (chats) => (
+    <>
+        <ChatList
+
+        />
+        <span>Please select a chat</span>
+    </>
+)
+
+
+function Router() {
+    const [chats, setChats] = useState(initialChats);
+
+    return (
+        <BrowserRouter>
+            <header>
+                <ul>
+                    <li>
+                        <Link to="/">home</Link>
+                    </li>
+                    <li>
+                        <Link to="/profile">profile</Link>
+                    </li>
+                    <li>
+                        <Link to="/chats">chats</Link>
+                    </li>
+                </ul>
+            </header>
+            <Switch>
+                <Route exact path="/">
+                    <Home />
+                </Route>
+                <Route path="/profile">
+                    <Profile />
+                </Route>
+                <Route path="/chats/:chatId?">
+                    {/*<Route path="/chats/">*/}
+                    <Chats chats={chats} setChats={setChats} />
+                </Route>
+                <Route path="/nochat">
+                    <NoChat chats={chats} />
+                </Route>
+                <Route>
+                    <h3>404 Page not found</h3>
+                </Route>
+            </Switch>
+        </BrowserRouter>
+    );
+}
+
 function App() {
 
     return (
-        <div className="App">
-            <ChatList chatList = {chatList} className={"chatList"}></ChatList>
-            <Chat/>
-        </div>
+        <>
+            <Router/>
+        </>
     );
 }
 
