@@ -1,38 +1,6 @@
 .App {
-  display: flex;
-  /*flex-direction: column;*/
-
-  /*align-items: center;*/
   text-align: center;
-}
-
-.chatList {
-  flex-basis: 20%;
-  border: 2px solid black;
-}
-
-
-.chat {
-  border: 2px solid black;
-}
-
-/*.App-logo {*/
-/*  height: 40vmin;*/
-/*  pointer-events: none;*/
-/*}*/
-
-.messages {
-  color: darkgreen;
-}
-
-.bgcYellow {
-  background-color: lightyellow;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  color: red;
 }
 
 .App-header {
@@ -43,18 +11,4 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

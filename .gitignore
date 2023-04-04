@@ -5,7 +5,8 @@ node_modules/
 # Ignore the build directory
 /dist
 
-package-lock.json# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+package-lock.json
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
